@@ -7,7 +7,6 @@
 //
 
 #import "CourseSearch.h"
-#import "CourseSummaryViewController.h"
 #import "CourseGList.h"
 #import "RegexParser.h"
 #import "SMWebRequest.h"

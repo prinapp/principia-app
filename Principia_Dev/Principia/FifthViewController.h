@@ -8,14 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "MediaPlayer/MediaPlayer.h"
-#import "StyledPullableView.h"
 // This is defined in Math.h
 #define M_PI   3.14159265358979323846264338327950288   /* pi */
 
 // Our conversion definition
 #define DEGREES_TO_RADIANS(angle) (angle / 180.0 * M_PI)
 
-@interface FifthViewController : UIViewController <PullableViewDelegate>
+@interface FifthViewController : UIViewController
 {
     UIButton *aButton;
     MPMoviePlayerController *player;
@@ -29,6 +28,6 @@
 -(IBAction)PlayStream:(id)sender;
 -(IBAction)flipScreen:(id)sender;
 -(IBAction)PlayPIR:(id)sender;
--(IBAction)createNewsFeed:(id)sender;
+
 
 @end
