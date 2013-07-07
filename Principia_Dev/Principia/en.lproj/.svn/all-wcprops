@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/prinapp/!svn/ver/2/trunk/Principia_Dev/Principia/en.lproj
+END
+InfoPlist.strings
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/prinapp/!svn/ver/2/trunk/Principia_Dev/Principia/en.lproj/InfoPlist.strings
+END
+FirstViewController_iPad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/prinapp/!svn/ver/2/trunk/Principia_Dev/Principia/en.lproj/FirstViewController_iPad.xib
+END
+SecondViewController_iPad.xib
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/prinapp/!svn/ver/2/trunk/Principia_Dev/Principia/en.lproj/SecondViewController_iPad.xib
+END
+FirstViewController_iPhone.xib
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/prinapp/!svn/ver/2/trunk/Principia_Dev/Principia/en.lproj/FirstViewController_iPhone.xib
+END

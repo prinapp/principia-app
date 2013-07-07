@@ -1,0 +1,67 @@
+//
+//  DataUtil.m
+//  Principia
+//
+//  Created by Dennis on 2/8/13.
+//  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
+//
+
+#import "DataUtil.h"
+
+@implementation DataUtil
+
+#pragma mark ---Database Logic---
++(NSString *)ConvertDBString:(char *)input
+{
+    char *wrkstr = input;
+    if(wrkstr == nil)
+    {
+        wrkstr = "";
+    }
+    NSString *rtnstr = [[NSString alloc] initWithUTF8String:wrkstr] ;
+    return rtnstr;
+    
+}
++(NSNumber *)ConvertDBNumber:(int)input;
+{
+    int incming = input;
+    NSNumber *rtnint = [[NSNumber alloc] initWithInt:incming];
+    return rtnint;
+}
+
+#pragma mark ---Date Logic---
++(NSDate *)dateParser:(NSMutableString *)rawstr :(bool)istime
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    if(istime)
+    {
+        [dateFormat setDateFormat:@"HH:mm:ss"];
+        
+    }else[dateFormat setDateFormat:@"yyyy-M-d"];
+    
+    NSDate *date = [dateFormat dateFromString:rawstr];
+    
+    return date;
+}
+
++(NSString *)GetCurrDateStr{
+NSDate *currdate = [NSDate date];
+NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    
+[dateFormat setDateFormat:@"yyyy-MM-dd"];
+ NSString *dateString = [dateFormat stringFromDate:currdate];
+    return dateString;
+}
+
++(NSString *)ConvertDate:(NSString *)date
+{
+    NSDate *wrkdate = [self dateParser:date :NO];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"EEEE, d MMMM yyyy"];
+    [dateFormat setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    NSString *rtnstr = [dateFormat stringFromDate:wrkdate];
+    return rtnstr;
+}
+
+@end

@@ -1,0 +1,209 @@
+//
+//  PrinWireNewsList.m
+//  Principia
+//
+//  Created by Dennis on 3/24/13.
+//  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
+//
+
+#import "PrinWireNewsList.h"
+#import "GlobalUtil.h"
+#import "WireViewer.h"
+#import "TouchXML.h"
+#import "SMWebRequest.h"
+
+@implementation PrinWireNewsList
+@synthesize List;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
+												[NSArray arrayWithObjects:
+												 [UIImage imageNamed:@"icon_left.png"],
+												 [UIImage imageNamed:@"icon_play.png"],
+												 nil]];
+        [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
+		segmentedControl.frame = CGRectMake(0, 0, 60, kCustomButtonHeight);
+		segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+		segmentedControl.momentary = YES;
+		
+		UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+		
+		self.navigationItem.rightBarButtonItem = segmentBarItem;
+		
+		// Tells the webView to load pdfUrl
+		[self performSelector:@selector(processURL) withObject:NULL afterDelay:0.0];
+    }
+    return self;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    // Return the number of rows in the section.
+    return List.count;
+}
+
+-(int)getTextHeight:(int)arow {
+    NSDictionary *rowdata = [List objectAtIndex:arow];
+    int width=250;
+    if ((self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft) || (self.interfaceOrientation==UIInterfaceOrientationLandscapeRight))
+        width=415;
+    CGSize constraint = CGSizeMake(width, 20000.0f);
+    CGSize size = [[rowdata objectForKey:@"description"] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:(CGFloat)13] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+    return size.height;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSUInteger aindex = ([indexPath section]*10)+[indexPath row];
+    int height=[self getTextHeight :aindex];
+    // NSLog( @"heightForRowAtIndexPath aindex: %d, row: %d, height: %d", aindex, [indexPath row],height);
+    return height+40;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"WireCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"WireCell" owner:self options:nil] lastObject];
+
+    }
+    
+    // Configure the cell...
+    NSMutableDictionary *item = [List objectAtIndex:indexPath.row];
+    [(UILabel *)[cell viewWithTag:1] setText:[item objectForKey:@"title"]];
+    
+    UILabel *alab=(UILabel *)[cell viewWithTag:2];
+    [alab setText:[item objectForKey:@"description"]];
+    alab.lineBreakMode = UILineBreakModeWordWrap;
+    CGRect aframe=alab.frame;
+    aframe.size.height=[self getTextHeight :[indexPath row]];
+    [alab setFrame:aframe];
+
+    //cell.detailTextLabel.text = [item objectForKey:@"description"];
+    
+    return cell;
+}
+
+/***********************************************************************/
+#pragma mark - PrinWire Parsing
+-(void)ParsePrinWire:(NSData *)data
+{
+    CXMLDocument *wirexml = [[CXMLDocument alloc] initWithData:data options:0 error:nil];
+    NSArray *nodes = [wirexml nodesForXPath:@"//item" error:nil];
+    NSMutableArray *list = [[NSMutableArray alloc] init];
+    NSMutableDictionary *entry;
+    for(CXMLElement *node in nodes)
+    {
+        entry = [[NSMutableDictionary alloc] init];
+        for (int index = 0; index<[node childCount]; index++) {
+            //NSLog(@"%@", [[node childAtIndex:index] stringValue]);
+            NSLog(@"%@", [[node nodeForXPath:@"//description" error:nil] stringValue]);
+        }
+        
+        [entry setObject:[[node childAtIndex:1] stringValue] forKey:@"title"];
+        [entry setObject:[[node childAtIndex:3] stringValue] forKey:@"link"];
+        [entry setObject:[[node nodeForXPath:@"//description" error:nil] stringValue] forKey:@"description"];
+        
+        [list addObject:entry];
+    }
+    
+    List = list;
+    [self.tableView reloadData];
+    
+    
+}
+
+-(void)LoadPrinWireRequest
+{
+    NSURL *flurl = [[NSURL alloc] initWithString:
+                    @"http://www.principiawire.com/category/college/feed/"];
+    //@"http://www.principiawire.com/feed/"];
+    SMWebRequest *request = [SMWebRequest requestWithURL:flurl];
+    [request addTarget:self action:@selector(ParsePrinWire:) forRequestEvents:SMWebRequestEventComplete];
+    [request addTarget:self action:@selector(requestError) forRequestEvents:SMWebRequestEventError];
+    [request start];
+}
+/***************************************************************************/
+
+#pragma mark - View lifecycle
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self LoadPrinWireRequest];
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self.refreshControl addTarget:self action:@selector(refreshView)
+                        forControlEvents:UIControlEventValueChanged];
+    [self LoadPrinWireRequest];
+    
+    // Do any additional setup after loading the view from its nib.
+}
+
+-(void)refreshView
+{
+    [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
+}
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier: @"ViewArticle" sender: indexPath];
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier: @"ViewArticle" sender: indexPath];    
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([segue.identifier isEqualToString:@"ViewArticle"])
+    {
+        NSIndexPath *row = sender;
+        NSString *link = [[List objectAtIndex:row.row] objectForKey:@"link"];
+        WireViewer *view = [segue destinationViewController];
+        [view addAddr:link];
+    }
+    
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+@end
