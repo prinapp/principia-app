@@ -21,7 +21,6 @@
 #import "Meals.h"
 #import "UsefulLinks.h"
 #import "viewer.h"
-#import "CourseSummaryViewController.h"
 #import "Reachability.h"
 #import "SMWebRequest.h"
 #import "DataUtil.h"
@@ -57,22 +56,7 @@ Method: downloadXML
         If the request had an error than we must handle it with our requestError method.
 */
 - (void)downloadXML {
-    
-    NSURL *url = [[NSURL alloc] initWithString:
-                  @"http://prinapp.geektron.me/requests/getmeal.php"];
-    
-    SMWebRequest *request = [SMWebRequest requestWithURL:url];
-    [request addTarget:self action:@selector(requestComplete:) forRequestEvents:SMWebRequestEventComplete];
-    [request addTarget:self action:@selector(requestError:) forRequestEvents:SMWebRequestEventError];
-    [request start];                                        //access the link.
-}
-
-/*
- Method: requestComplete
-         Sends the data to be processed by a new thread with a new method parseXML so that we do not freeze the main thread when starting the app.
-*/
-- (void)requestComplete:(NSData *)data {
-    [self performSelectorInBackground:@selector(parseXML:) withObject:data];
+    [DataUtil GetDataToParse:@"http://prinapp.geektron.me/requests/getmeal.php" :@"parseXML:" :self]; //access the link.
 }
 
 /*
@@ -153,7 +137,7 @@ Method: downloadXML
     }
     sqlite3_finalize(insstmt);          //finish using the sqlite3 statement.
     sqlite3_close(database);            //clsoe the database/
-    [self GetContacts];
+    
     
     
 }
@@ -207,23 +191,6 @@ Method: downloadXML
         atype=[[node childAtIndex:5] stringValue];
         acontact=[[node childAtIndex:3] stringValue];
         
-//        for(int index = 0; index<[node childCount];index++)
-//        {
-//            NSString *insvalue = [[node childAtIndex:index] stringValue];
-//            NSLog(@"%@",insvalue);
-//            
-//            //
-//            if ([insvalue characterAtIndex:0] == '\n') {
-//                continue;
-//            }
-//            else if (index==1)
-//                aname=insvalue;
-//            else if (index==3)
-//                acontact=insvalue;
-//            else if (index==5)
-//                atype=insvalue;
-//        }
-
         NSString *aqry=[NSString stringWithFormat:@"insert into directory (FirstName, Address, Type) values ('%@','%@',%d)",aname,acontact,[atype integerValue]];
         if (sqlite3_prepare_v2(database2, [aqry UTF8String], -1, &insstmt, nil)==SQLITE_OK)
         {
@@ -243,10 +210,7 @@ Method: downloadXML
 
 -(void)GetContacts
 {
-    NSURL *mealurl = [[NSURL alloc]initWithString:@"http://prinapp.geektron.me/requests/getcontacts411.php"];
-    SMWebRequest * getcontacts = [SMWebRequest requestWithURL:mealurl];
-    [getcontacts addTarget:self action:@selector(parseContacts:) forRequestEvents:SMWebRequestEventComplete];
-    [getcontacts start];
+    [DataUtil GetDataToParse:@"http://prinapp.geektron.me/requests/getcontacts411.php" :@"parseContacts:" :self];
 }
 /***********************************************************************************************************/
 #pragma mark start of display code
@@ -268,8 +232,6 @@ Method: downloadXML
         viewController5 = [[Contacts alloc] initWithNibName:@"Contacts" bundle:nil];
         viewController4 = [[Directory alloc] initWithNibName:@"Directory" bundle:nil];
         viewController1 = [[FifthViewController alloc] initWithNibName:@"FifthViewController_iPhone" bundle:nil];
-//      viewController6 = [[SixthViewController alloc] initWithNibName:@"SixthViewController_iPhone" bundle:nil];
-//      viewController7 = [[Course1 alloc] initWithNibName:@"Course1" bundle:nil];
         viewController7 = [[CourseSearch alloc] initWithNibName:@"CourseDetail" bundle:nil];
         soprininitial = [soprin instantiateInitialViewController];
         prinwireinitial = [prinwire instantiateInitialViewController];
@@ -285,8 +247,6 @@ Method: downloadXML
         viewController5 = [[Contacts alloc] initWithNibName:@"Contacts" bundle:nil];
         viewController4 = [[Directory alloc] initWithNibName:@"Directory" bundle:nil];
         viewController1 = [[FifthViewController alloc] initWithNibName:@"FifthViewController_iPad" bundle:nil];
-//      viewController6 = [[SixthViewController alloc] initWithNibName:@"SixthViewController_iPad" bundle:nil];
-//      viewController7 = [[Course1 alloc] initWithNibName:@"Course1" bundle:nil];
         viewController7 = [[CourseSearch alloc] initWithNibName:@"CourseDetail" bundle:nil];
     }
     self.tabBarController = [[UITabBarController alloc] init];
@@ -343,14 +303,9 @@ Method: downloadXML
     self.tabBarController.viewControllers=localViewControllersArray;
     
     
-    //    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2,viewController3,viewController4,viewController7,viewController6,viewController5, nil];
-    
-    //    self.navController=[[UINavigationController alloc] initWithRootViewController:self.tabBarController];
-    //    self.window.rootViewController = self.navController;
-    
-    //[self checksyncdate];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [self downloadXML];
+    [self GetContacts];
     self.window.rootViewController = self.tabBarController;
     [GMSServices provideAPIKey:@"AIzaSyDQLSN1pZ0u6z6AfsFLZwtGEnV1FRtX6BQ"];
     
