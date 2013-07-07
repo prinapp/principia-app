@@ -8,8 +8,6 @@
 
 #import "Events.h"
 #import "SMWebRequest.h"
-#import "Headers/GData.h"
-#import "Headers/GDataCalendar.h"
 #import "TouchXML.h"
 #import "DataUtil.h"
 #import "Meals.h"
