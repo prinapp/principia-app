@@ -96,19 +96,35 @@
 	return [[[NSBundle mainBundle] localizedInfoDictionary] objectForKey:key] ? : [[[NSBundle mainBundle] infoDictionary] objectForKey:key];
 }
 
+- (IBAction)aboutPrin:(id)sender {
+    viewer *controller = [[viewer alloc] initWithNibName:@"viewer" bundle:nil];
+    controller.Url=[NSURL URLWithString:@"http://www.principiacollege.edu/about-principia-college"];
+    [controller setViewType:1];
+    controller.navigationItem.title=@"About Principia";
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
 - (IBAction)suggestions:(id)sender {
     viewer *controller = [[viewer alloc] initWithNibName:@"viewer" bundle:nil];
     controller.Url=[NSURL URLWithString:@"https://docs.google.com/forms/d/1pGG6h2an68lU9XBguOX5RgWo3VjkoH6b7TkdLSWQBCQ/viewform"];
-    //controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [controller setViewType:0];
     controller.navigationItem.title=@"Suggestions";
-//    [self presentModalViewController:controller animated:YES];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (IBAction)dismissAction:(id)sender
 {
 	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return (UIInterfaceOrientationMaskPortrait);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

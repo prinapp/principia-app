@@ -71,11 +71,18 @@
 -(int)getTextHeight:(int)arow {
     
     NSDictionary *rowdata = [List objectAtIndex:arow];
-    int width=250;
-    if ((self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft) || (self.interfaceOrientation==UIInterfaceOrientationLandscapeRight))
-        width=415;
+    int width=295;  //320 normal iphone, landscape: 5:568, <5.0:480
+    if ((self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft) || (self.interfaceOrientation==UIInterfaceOrientationLandscapeRight)) {
+        if ([ [ UIScreen mainScreen ] bounds ].size.height==568) {
+            width=543;
+        }
+        else {
+            width=455;
+        }
+    }
     CGSize constraint = CGSizeMake(width, 20000.0f);
-    CGSize size = [[rowdata objectForKey:@"description"] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:(CGFloat)13] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [[rowdata objectForKey:@"description"] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:(CGFloat)13.0] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+    NSLog(@"***Height: %0f.0 Text%@",size.height, [rowdata objectForKey:@"description"]);
     return size.height;
 }
 
@@ -84,7 +91,7 @@
     NSUInteger aindex = ([indexPath section]*10)+[indexPath row];
     int height=[self getTextHeight :aindex];
     // NSLog( @"heightForRowAtIndexPath aindex: %d, row: %d, height: %d", aindex, [indexPath row],height);
-    return height+40;
+    return height+35;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -94,17 +101,21 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"WireCell" owner:self options:nil] lastObject];
-
     }
-    
+
     // Configure the cell...
     NSMutableDictionary *item = [List objectAtIndex:indexPath.row];
     [(UILabel *)[cell viewWithTag:1] setText:[item objectForKey:@"title"]];         //add the title to the cell
     
     UILabel *alab=(UILabel *)[cell viewWithTag:2];
     [alab setText:[item objectForKey:@"description"]];          //add the description to the cell.
+   // alab.numberOfLines = 0;
+   // [alab sizeToFit];
     alab.lineBreakMode = NSLineBreakByWordWrapping;
     CGRect aframe=alab.frame;
+    NSLog(@"cell width:%0f.0  %0f.0",cell.frame.size.width,aframe.origin.y);
+    //aframe.origin.x=50;
+    //aframe.origin.y=30;
     aframe.size.height=[self getTextHeight :[indexPath row]];
     [alab setFrame:aframe];
 
@@ -183,11 +194,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self LoadPrinWireRequest];
-    
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     
 }
 
@@ -198,6 +207,11 @@
                         forControlEvents:UIControlEventValueChanged];
     [self LoadPrinWireRequest];
     
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(deviceOrientationDidChangeNotification:)
+     name:UIDeviceOrientationDidChangeNotification
+     object:nil];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -234,10 +248,30 @@
     
 }
 
+- (void)deviceOrientationDidChangeNotification:(NSNotification*)note
+{
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    [self.tableView reloadData];
+
+//    switch (orientation)
+//    {
+//    }
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return (UIInterfaceOrientationMaskAll);
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationMaskAll);
 }
 
 @end
