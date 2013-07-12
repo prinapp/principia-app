@@ -88,7 +88,6 @@
 		95AF986F16CC010E0033EBF7 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF986E16CC010E0033EBF7 /* MobileCoreServices.framework */; };
 		95AF987116CC01170033EBF7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF987016CC01170033EBF7 /* CFNetwork.framework */; };
 		95AF987616CC02430033EBF7 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF987516CC02430033EBF7 /* libxml2.dylib */; };
-		95B24090178016F200B89F5F /* 57-download.png in Resources */ = {isa = PBXBuildFile; fileRef = 95B2408F178016F200B89F5F /* 57-download.png */; };
 		95C31F38170E9CDD00A009C9 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 95C31F37170E9CDD00A009C9 /* GoogleMaps.bundle */; };
 		95C31F3A170E9D2B00A009C9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C31F39170E9D2B00A009C9 /* CoreData.framework */; };
 		95C31F3C170E9D3900A009C9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C31F3B170E9D3900A009C9 /* CoreLocation.framework */; };
@@ -148,6 +147,7 @@
 		E35F89FF1736F0A800F227E1 /* link.png in Resources */ = {isa = PBXBuildFile; fileRef = E35F89FE1736F0A800F227E1 /* link.png */; };
 		E3642AAD165FFA36000739C8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3642AAC165FFA36000739C8 /* MediaPlayer.framework */; };
 		E36AFE1B166C404E00C4E605 /* CourseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E36AFE1A166C404D00C4E605 /* CourseCell.xib */; };
+		E385AE04178F9715003E4FD5 /* 57-download.png in Resources */ = {isa = PBXBuildFile; fileRef = E385AE03178F9715003E4FD5 /* 57-download.png */; };
 		E3874B1A16687316009EA1A0 /* SecondViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3874B1916687316009EA1A0 /* SecondViewController_iPhone.xib */; };
 		E389C6761667FA4400A210AC /* Course1.xib in Resources */ = {isa = PBXBuildFile; fileRef = E389C6741667FA4400A210AC /* Course1.xib */; };
 		E389C67E1667FED700A210AC /* Contacts.m in Sources */ = {isa = PBXBuildFile; fileRef = E389C67C1667FED700A210AC /* Contacts.m */; };
@@ -296,7 +296,6 @@
 		95AF986E16CC010E0033EBF7 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		95AF987016CC01170033EBF7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		95AF987516CC02430033EBF7 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		95B2408F178016F200B89F5F /* 57-download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "57-download.png"; path = "../../../../glyphish-icons/PNG icons/57-download.png"; sourceTree = "<group>"; };
 		95C31F32170E9C0200A009C9 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		95C31F37170E9CDD00A009C9 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		95C31F39170E9D2B00A009C9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -365,6 +364,7 @@
 		E35F89FE1736F0A800F227E1 /* link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = link.png; sourceTree = "<group>"; };
 		E3642AAC165FFA36000739C8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		E36AFE1A166C404D00C4E605 /* CourseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CourseCell.xib; sourceTree = "<group>"; };
+		E385AE03178F9715003E4FD5 /* 57-download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "57-download.png"; path = "Icons/57-download.png"; sourceTree = SOURCE_ROOT; };
 		E3874B1916687316009EA1A0 /* SecondViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecondViewController_iPhone.xib; sourceTree = "<group>"; };
 		E389C6741667FA4400A210AC /* Course1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Course1.xib; sourceTree = "<group>"; };
 		E389C67B1667FED700A210AC /* Contacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contacts.h; sourceTree = "<group>"; };
@@ -454,9 +454,9 @@
 		953C7F0816C8DF8A00B99938 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E385AE03178F9715003E4FD5 /* 57-download.png */,
 				520F06DF171F5BC400703578 /* Default-568h@2x.png */,
 				520F06DD171F5BB900703578 /* Default@2x.png */,
-				95B2408F178016F200B89F5F /* 57-download.png */,
 				E35F89FE1736F0A800F227E1 /* link.png */,
 				E3F0208F1734148400D9D8BC /* 64-zap.png */,
 				8D3A67B21725983A00171A02 /* PIR_Select.png */,
@@ -922,7 +922,7 @@
 				E30422B4173980D7004CE008 /* csumpic.xib in Resources */,
 				E30422B7173980E7004CE008 /* csumdescription.xib in Resources */,
 				9524DA3E177FFC730012BA68 /* Changes in Resources */,
-				95B24090178016F200B89F5F /* 57-download.png in Resources */,
+				E385AE04178F9715003E4FD5 /* 57-download.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

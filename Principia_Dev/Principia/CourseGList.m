@@ -57,6 +57,7 @@
      [errorMessage show];
  }
 }
+
 -(void)parseCourseDetail:(NSData *)data
 {
     CXMLDocument *searchdoc = [[CXMLDocument alloc] initWithData:data options:0 error:nil];
