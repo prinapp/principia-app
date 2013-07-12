@@ -88,7 +88,6 @@
 		95AF986F16CC010E0033EBF7 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF986E16CC010E0033EBF7 /* MobileCoreServices.framework */; };
 		95AF987116CC01170033EBF7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF987016CC01170033EBF7 /* CFNetwork.framework */; };
 		95AF987616CC02430033EBF7 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF987516CC02430033EBF7 /* libxml2.dylib */; };
-		95B24090178016F200B89F5F /* 57-download.png in Resources */ = {isa = PBXBuildFile; fileRef = 95B2408F178016F200B89F5F /* 57-download.png */; };
 		95C31F38170E9CDD00A009C9 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 95C31F37170E9CDD00A009C9 /* GoogleMaps.bundle */; };
 		95C31F3A170E9D2B00A009C9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C31F39170E9D2B00A009C9 /* CoreData.framework */; };
 		95C31F3C170E9D3900A009C9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C31F3B170E9D3900A009C9 /* CoreLocation.framework */; };
@@ -296,7 +295,6 @@
 		95AF986E16CC010E0033EBF7 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		95AF987016CC01170033EBF7 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		95AF987516CC02430033EBF7 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		95B2408F178016F200B89F5F /* 57-download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "57-download.png"; path = "../../../../glyphish-icons/PNG icons/57-download.png"; sourceTree = "<group>"; };
 		95C31F32170E9C0200A009C9 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		95C31F37170E9CDD00A009C9 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		95C31F39170E9D2B00A009C9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -456,7 +454,6 @@
 			children = (
 				520F06DF171F5BC400703578 /* Default-568h@2x.png */,
 				520F06DD171F5BB900703578 /* Default@2x.png */,
-				95B2408F178016F200B89F5F /* 57-download.png */,
 				E35F89FE1736F0A800F227E1 /* link.png */,
 				E3F0208F1734148400D9D8BC /* 64-zap.png */,
 				8D3A67B21725983A00171A02 /* PIR_Select.png */,
@@ -922,7 +919,6 @@
 				E30422B4173980D7004CE008 /* csumpic.xib in Resources */,
 				E30422B7173980E7004CE008 /* csumdescription.xib in Resources */,
 				9524DA3E177FFC730012BA68 /* Changes in Resources */,
-				95B24090178016F200B89F5F /* 57-download.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

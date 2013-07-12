@@ -11,8 +11,7 @@
 #import "RegexParser.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "GlobalUtil.h"
-#import "NoConnect.h"
-
+//#import "NoConnect.h"
 
 @implementation Directory
 
