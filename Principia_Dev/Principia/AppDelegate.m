@@ -205,31 +205,49 @@ Method: downloadXML
         NSLog(@"%@",[DataUtil ConvertDBString:(char *)sqlite3_errmsg(database2)]);
     }
     sqlite3_finalize(insstmt);
-    sqlite3_close(database2);
 
     //Prepare parsing of xml.
     CXMLDocument *doc = [[CXMLDocument alloc] initWithData:data options:0 error:nil];
     NSString *astr = [[NSString alloc] initWithData:data encoding:NSWindowsCP1252StringEncoding];
     NSLog(@"Data:%@",astr);
     
-    if (sqlite3_open([[self dataFilePath] UTF8String], &database2) != SQLITE_OK) {
-        sqlite3_close(database2);
-        NSAssert(0, @"Failed to open database2");
-    }
-    
     NSArray *nodes = [doc nodesForXPath:@"//Item" error:nil];
     NSString *aname=@"";
     NSString *atype=@"";
+    NSString *aseq=@"";
     NSString *acontact=@"";
-    
+    NSString *insvalue=@"";
+
     for (CXMLElement *node in nodes) {
-        aname=[[node childAtIndex:1] stringValue];
-        atype=[[node childAtIndex:5] stringValue];
-        acontact=[[node childAtIndex:3] stringValue];
-        
-        NSString *aqry=[NSString stringWithFormat:@"insert into directory (FirstName, Address, Type) values ('%@','%@',%d)",aname,acontact,[atype integerValue]];
-        if (sqlite3_prepare_v2(database2, [aqry UTF8String], -1, &insstmt, nil)==SQLITE_OK)
+        aname=@"";
+        acontact=@"";
+        atype=@"";
+        aseq=@"0";
+
+        for(int index = 0; index<[node childCount];index++)
         {
+            if ([[[node childAtIndex:index] stringValue] isEqualToString:@""])
+                continue;
+            else
+                insvalue = [[node childAtIndex:index] stringValue];
+            NSLog(@"%@",insvalue);
+            
+            //
+            if ([insvalue characterAtIndex:0] == '\n') {
+                continue;
+            }
+            else if (index==1)
+                aname=insvalue;
+            else if (index==3)
+                acontact=insvalue;
+            else if (index==5)
+                atype=insvalue;
+            else if (index==7)
+                aseq=insvalue;
+        }
+
+        NSString *aqry=[NSString stringWithFormat:@"insert into directory (FirstName, Address, Type, mailbox) values ('%@','%@',%d,%d)",aname,acontact,[atype integerValue],[aseq integerValue]];
+        if (sqlite3_prepare_v2(database2, [aqry UTF8String], -1, &insstmt, nil)==SQLITE_OK) {
         }
         int i = sqlite3_step(insstmt);
         if(i != SQLITE_DONE)
@@ -241,12 +259,14 @@ Method: downloadXML
         
     }
     sqlite3_close(database2);
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;         //Turn of the network indicator to show that we are done processing all network jobs.
 }
 
 -(void)GetContacts
 {
-    [DataUtil GetDataToParse:@"http://prinapp.geektron.me/requests/getcontacts411.php" :@"parseContacts:" :self];
+    NSURL *mealurl = [[NSURL alloc]initWithString:@"http://prinapp.geektron.me/requests/getcontacts411.php"];
+    SMWebRequest * getcontacts = [SMWebRequest requestWithURL:mealurl];
+    [getcontacts addTarget:self action:@selector(parseContacts:) forRequestEvents:SMWebRequestEventComplete];
+    [getcontacts start];
 }
 /***********************************************************************************************************/
 #pragma mark start of display code

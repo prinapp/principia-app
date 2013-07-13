@@ -153,7 +153,7 @@
     controller.Url=[NSURL URLWithString:aaddress];
     controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     if ([aname isEqualToString:@"Principia Internet Radio Schedule"])
-        [controller setViewType:1];
+        [controller setViewType:2];
     else
         [controller setViewType:0];
     controller.navigationItem.title=aname;

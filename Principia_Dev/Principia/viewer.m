@@ -63,8 +63,11 @@
 -(void)positionPage {
 	if (viewType==1) {
 		[webView stringByEvaluatingJavaScriptFromString:@"document.body.style.zoom=2.0;"];
-//		[webView stringByEvaluatingJavaScriptFromString:@"window.scrollTo(800,document.body.scrollHeight-5740);"];
 	}
+	else if (viewType==2) {
+		[webView stringByEvaluatingJavaScriptFromString:@"document.body.style.zoom=4.0;"];
+	}
+    //		[webView stringByEvaluatingJavaScriptFromString:@"window.scrollTo(800,document.body.scrollHeight-5740);"];
 }
 
 -(void)processURL {
