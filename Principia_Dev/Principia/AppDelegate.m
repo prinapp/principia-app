@@ -31,12 +31,49 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "ErrorHandler.h"
 
+@implementation UITabBarController(AutorotationFromSelectedView)
+- (BOOL)shouldAutorotate {
+    if (self.selectedViewController) {
+        return [self.selectedViewController shouldAutorotate];
+    } else {
+        return YES;
+    }
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    if (self.selectedViewController) {
+        return [self.selectedViewController supportedInterfaceOrientations];
+    } else {
+        return UIInterfaceOrientationMaskAllButUpsideDown;
+    }
+}
+@end
+
+@implementation UINavigationController(AutorotationFromVisibleView)
+- (BOOL)shouldAutorotate {
+    if (self.visibleViewController) {
+        return [self.visibleViewController shouldAutorotate];
+    } else {
+        return YES;
+    }
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    if (self.visibleViewController) {
+        return [self.visibleViewController supportedInterfaceOrientations];
+    } else {
+        return UIInterfaceOrientationMaskAllButUpsideDown;
+    }
+}
+@end
+
 @implementation AppDelegate
 
 @synthesize window = _window;
 @synthesize tabBarController = _tabBarController;
 @synthesize navController;
 @synthesize autil;
+
 
 #pragma mark Database Handling
 -(NSString *) dataFilePath
@@ -137,8 +174,7 @@ Method: downloadXML
     }
     sqlite3_finalize(insstmt);          //finish using the sqlite3 statement.
     sqlite3_close(database);            //clsoe the database/
-    
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;         //Turn of the network indicator to show that we are done processing all network jobs.
     
 }
 /*****************************************************************************************/
