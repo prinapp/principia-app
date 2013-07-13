@@ -56,5 +56,6 @@
 
 - (IBAction)dismissAction:(id)sender;
 - (IBAction)suggestions:(id)sender;
+- (IBAction)aboutPrin:(id)sender;
 
 @end

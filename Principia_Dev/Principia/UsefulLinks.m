@@ -69,7 +69,7 @@
 		NSAssert(0, @"Failed to open database");
 	}
 
-    NSString *select = @"SELECT FirstName, Address from Directory where type=411";
+    NSString *select = @"SELECT FirstName, Address from Directory where type=411 order by mailbox";
     sqlite3_stmt *statement;
     if (sqlite3_prepare_v2( database, [select UTF8String],-1, &statement, nil) == SQLITE_OK) {
         while (sqlite3_step(statement) == SQLITE_ROW) {
@@ -152,7 +152,10 @@
     viewer *controller = [[viewer alloc] initWithNibName:@"viewer" bundle:nil];
     controller.Url=[NSURL URLWithString:aaddress];
     controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [controller setViewType:0];
+    if ([aname isEqualToString:@"Principia Internet Radio Schedule"])
+        [controller setViewType:1];
+    else
+        [controller setViewType:0];
     controller.navigationItem.title=aname;
     [self.navigationController pushViewController:controller animated:YES];
 }
